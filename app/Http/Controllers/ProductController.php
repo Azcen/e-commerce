@@ -7,16 +7,34 @@ use App\Product;
 
 class ProductController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
     {
-        return Product::all();
+        $products =  Product::paginate(3);
+
+        return [
+            'pagination' =>[
+                'total'         => $products->total(),
+                'current_page'  => $products->currentPage(),
+                'per_page'      => $products->perPage(),
+                'last_page'     => $products->lastPage(),
+                'from'          => $products->firstItem(),
+                'to'            => $products->lastPage(),
+            ],
+            'products' => $products
+        ];
     }
 
-    public function show(Product $product)
-    {
-        return $product;
-    }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $product = Product::create([
@@ -30,7 +48,25 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    public function update(Request $request, Product $product)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return $product;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
         $product->update([
             'name' => $request->name,
@@ -42,7 +78,13 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    public function delete(Product $product)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
         $product->delete();
 
