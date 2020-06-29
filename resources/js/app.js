@@ -32,6 +32,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 Vue.component('product-card', require('./components/ProductCardComponent.vue').default);
+Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 
 const app = new Vue({
   el: '#app',
