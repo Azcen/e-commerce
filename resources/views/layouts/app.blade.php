@@ -73,6 +73,7 @@
                     </div>
                 </div>
             </nav>
+            @yield('sideBar')
     
             <main class="py-4">
                 @yield('content')
