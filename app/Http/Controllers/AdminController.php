@@ -25,4 +25,9 @@ class AdminController extends Controller
     {
         return view('admin');
     }
+    public function products()
+    {
+
+        return view('admin.products');
+    }
 }

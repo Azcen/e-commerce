@@ -11,11 +11,24 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::get('/admin/{vue_capture?}', function () {
+    return view('admin');
+   })->where('vue_capture', '[\/\w\.-]*');
+
+Route::get('/{vue_capture?}', function () {
+    return view('welcome');
+   })->where('vue_capture', '[\/\w\.-]*');
+
 
 Auth::routes();
 
-Route::get('/admin', 'AdminController@index')->name('admin');
+//Route::get('/admin', 'AdminController@index')->name('admin');
+Route::get('/admin/products', 'AdminController@products')->name('products');
+
+
+
+
 
