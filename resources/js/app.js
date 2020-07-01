@@ -6,9 +6,41 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue';
 import Vuetify from 'vuetify';
+import VueRouter from 'vue-router';
+import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist'
+
+import { routes } from './routes';
+
 Vue.use(Vuetify);
+Vue.use(VueRouter);
+Vue.use(Vuex);
+Vue.use(Vuex);
+
+
+const router = new VueRouter({
+  mode: 'history',
+  routes
+});
+
+const store = new Vuex.Store({
+
+  state: {
+      slug: null
+  },
+  mutations: {
+    slug(state, payload){
+      
+        state.slug = payload
+      
+      
+    }
+  },
+  actions: {},
+  plugins: [new VuexPersistence().plugin]
+})
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,5 +68,7 @@ Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 
 const app = new Vue({
   el: '#app',
-  vuetify: new Vuetify()
+  vuetify: new Vuetify(),
+  router,
+  store
 });

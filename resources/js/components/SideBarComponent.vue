@@ -54,9 +54,9 @@
         return {
         drawer: true,
         items: [
-            { title: 'Products', icon: 'mdi-view-dashboard' },
-            { title: 'Users', icon: 'mdi-image' },
-            { title: 'About', icon: 'mdi-help-box' },
+            { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+            { title: 'Products', icon: 'mdi-image' },
+            { title: 'Users', icon: 'mdi-help-box' },
         ],
         color: 'teal',
         right: false,

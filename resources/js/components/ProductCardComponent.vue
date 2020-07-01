@@ -8,11 +8,11 @@
             <v-container grid-list-md>
                 <v-layout wrap>
                     <div v-if="loading">Cargando...</div>
-                    <v-flex v-else v-for="product in info" xs12 md4>
+                    <v-flex v-else v-for="(product, index ) in info" :key="index" xs12 md4>
                         <v-item>
                             
                             <v-card class="mx-auto" max-width="344" >
-                                <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="200px"></v-img>
+                                <v-img src="https://picsum.photos/510/300?random" height="200px"></v-img>
 
                                 <v-card-title>
                                     {{ product.name }}
@@ -25,8 +25,13 @@
                                 <v-card-actions>
                                     <v-btn text>Share</v-btn>
 
-                                    <v-btn color="purple" text>
-                                        Explore
+                                    <v-btn color="purple" v-model="slug" @click="slug = product.slug; $store.commit('slug',slug); $router.push(product.slug)" text >
+                                       
+                                       url to example
+                                       
+                                    </v-btn>
+                                    <v-btn :to="`${product.slug}`" >
+a                                       asd
                                     </v-btn>
 
                                     <v-spacer></v-spacer>
@@ -62,44 +67,16 @@
                     ></v-pagination>
                 </div>
             </template>
+            
         </v-item-group>
     </section>
 </template>
 
-<!--<template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-                    <div class="card-body">
-                        <section v-if="err">
-                            <p>Lo sentimos, no es posible obtener la información en este momento, por favor intente nuevamente mas tarde</p>
-                        </section>
-                        <section v-else>
-                            <div v-if="loading">Cargando...</div>
-
-                            <div
-                            v-else
-                            v-for="product in info"
-                            >
-                            {{ product.name }}
-                            {{ product.description }}
-
-                            </div>
-
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
- 
-</template>
-
--->
 
 <script>
+
+import {mapState, mapMutations} from 'vuex';
+
 export default {
     data() {
         return {
@@ -107,7 +84,7 @@ export default {
             loading: true,
             err: false,
             show: false,
-            
+            slug: null,
             pagination: {
                 'total': 0,
                 'current_page':0,
@@ -124,10 +101,9 @@ export default {
         this.getProducts();
         
     },
-    computed: {
-        
-        
-    },
+    computed:{}
+    ,
+
     methods:{
         getProducts(page){
 
@@ -148,7 +124,8 @@ export default {
         changePage(page){
             this.pagination.current_page = page;
             this.getProducts(page);
-        }
+        },
+       
     }
 
 }

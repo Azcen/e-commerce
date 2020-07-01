@@ -1,6 +1,5 @@
 @extends('layouts.landing')
 
 @section('content')
-    <product-card></product-card>
-    <!--<example-component></example-component>-->
+<router-view></router-view>
 @endsection

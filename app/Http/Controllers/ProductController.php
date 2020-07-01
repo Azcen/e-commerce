@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products =  Product::paginate(3);
+        $products =  Product::paginate(6);
 
         return [
             'pagination' =>[
@@ -54,8 +54,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
+        $product = Product::where('slug', '=', $slug)->first();
+        //dd($product);
         return $product;
     }
 
