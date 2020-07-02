@@ -17,4 +17,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('products', 'ProductController');
+
+Route::apiResource('products', 'ProductController')->only([
+    'index', 'show'
+]);
+Route::post('login', 'AuthController@login');
+  
+Route::group(['middleware' => 'auth.api'], function() {
+    Route::get('logout', 'AuthController@logout');
+
+    //
+    Route::apiResource('products', 'ProductController')->except([
+        'index', 'show'
+    ]);
+});

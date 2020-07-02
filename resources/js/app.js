@@ -81,6 +81,7 @@ Vue.component('base-app', require('./components/layout/App.vue').default);
 Vue.component('product-card', require('./components/ProductCardComponent.vue').default);
 Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 Vue.component('checkout', require('./components/CheckoutComponent.vue').default);
+Vue.component('login', require('./components/auth/LoginComponent.vue').default);
 
 const app = new Vue({
   el: '#app',

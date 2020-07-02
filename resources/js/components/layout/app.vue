@@ -33,7 +33,10 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block>Login</v-btn>
+          <v-btn  
+          block
+          @click="slug =$router.push('/login')"
+          >Login</v-btn>
         </div>
         <div class="pa-2">
           <v-btn block>Register</v-btn>
@@ -47,7 +50,6 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>E-Commerce</v-toolbar-title>
       <v-toolbar-title>E-Commerce</v-toolbar-title>
     </v-app-bar>
 
