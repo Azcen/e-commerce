@@ -4,7 +4,8 @@
             <v-col class="pa-4">
                 <v-toolbar
             flat
-            color="teal accent-4"
+            
+            color="indigo accent-4"
             dark
             >
         
@@ -68,7 +69,7 @@
                 <v-card ref="form">
                     <v-toolbar
                         flat
-                        color="teal accent-4"
+                         color="indigo accent-4"
                         dark
                         >
                     
@@ -162,7 +163,7 @@
                 <v-card ref="form">
                     <v-toolbar
                         flat
-                        color="teal accent-4"
+                         color="indigo accent-4"
                         dark
                         >
                     

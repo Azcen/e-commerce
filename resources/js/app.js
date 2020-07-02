@@ -77,9 +77,11 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('base-app', require('./components/layout/App.vue').default);
 Vue.component('product-card', require('./components/ProductCardComponent.vue').default);
 Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 Vue.component('checkout', require('./components/CheckoutComponent.vue').default);
+Vue.component('app-bar', require('./components/AppBarComponent.vue').default);
 
 const app = new Vue({
   el: '#app',
