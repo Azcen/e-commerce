@@ -2752,9 +2752,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    source: String
+  data: function data() {
+    var _this = this;
+
+    return {
+      info: null,
+      err: null,
+      show: false,
+      credentials: {
+        email: null,
+        password: null
+      },
+      rules: {
+        required: function required(value) {
+          return !!value || "Required.";
+        },
+        min: function min(v) {
+          return v.length >= 8 || "Min 8 characters";
+        },
+        emailMatch: function emailMatch() {
+          return _this.err === true || _this.err === null || "The email and password you entered doesn't match";
+        },
+        email: function email(value) {
+          var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail";
+        }
+      }
+    };
+  },
+  methods: {
+    login: function login(credentials) {
+      var _this2 = this;
+
+      var urlProduct = "api/login";
+      axios.post(urlProduct, credentials).then(function (response) {
+        _this2.info = response.data;
+        console.log(response.data.token);
+
+        _this2.$store.commit("auth", response.data.token);
+
+        console.log(response.data.user);
+      })["catch"](function (error) {
+        console.log(error.response.status);
+        _this2.err = true;
+      })["finally"](function () {
+        return _this2.loading = false;
+      });
+    }
   }
 });
 
@@ -2824,42 +2873,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
   },
   data: function data() {
     return {
+      info: null,
       drawer: null,
-      show: false
+      show: false,
+      auth: false
     };
+  },
+  mounted: function mounted() {
+    if (this.$store.state.token) {
+      this.auth = true;
+    } else {
+      this.auth = false;
+    }
   },
   computed: {
     amount: function amount() {
       return this.$store.state.cart.length;
+    }
+  },
+  methods: {
+    logout: function logout() {
+      var _this = this;
+
+      var urlLogout = "api/logout";
+      axios.get(urlLogout).then(function (response) {
+        _this.info = response.data;
+        console.log(response.data);
+
+        _this.$store.commit("logout");
+      })["catch"](function (error) {
+        console.log(error);
+        _this.err = true;
+      })["finally"](function () {
+        return _this.loading = false;
+      });
     }
   }
 });
@@ -42381,22 +42434,56 @@ var render = function() {
                         [
                           _c("v-text-field", {
                             attrs: {
-                              label: "Login",
-                              name: "login",
                               "prepend-icon": "mdi-account",
-                              type: "text"
+                              rules: [_vm.rules.required, _vm.rules.email],
+                              label: "E-mail"
+                            },
+                            model: {
+                              value: _vm.credentials.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.credentials, "email", $$v)
+                              },
+                              expression: "credentials.email"
                             }
                           }),
                           _vm._v(" "),
                           _c("v-text-field", {
+                            staticClass: "input-group--focused",
                             attrs: {
                               id: "password",
-                              label: "Password",
-                              name: "password",
                               "prepend-icon": "mdi-lock",
-                              type: "password"
+                              "append-icon": _vm.show
+                                ? "mdi-eye"
+                                : "mdi-eye-off",
+                              rules: [
+                                _vm.rules.required,
+                                _vm.rules.min,
+                                _vm.rules.emailMatch
+                              ],
+                              type: _vm.show ? "text" : "password",
+                              name: "input-10-2",
+                              label: "Password",
+                              hint: "At least 8 characters"
+                            },
+                            on: {
+                              "click:append": function($event) {
+                                _vm.show = !_vm.show
+                              }
+                            },
+                            model: {
+                              value: _vm.credentials.password,
+                              callback: function($$v) {
+                                _vm.$set(_vm.credentials, "password", $$v)
+                              },
+                              expression: "credentials.password"
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _vm.err == true
+                            ? _c("span", { attrs: { color: "red" } }, [
+                                _vm._v("Invalid credentials")
+                              ])
+                            : _vm._e()
                         ],
                         1
                       )
@@ -42409,9 +42496,18 @@ var render = function() {
                     [
                       _c("v-spacer"),
                       _vm._v(" "),
-                      _c("v-btn", { attrs: { color: "primary" } }, [
-                        _vm._v("Login")
-                      ])
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.login(_vm.credentials)
+                            }
+                          }
+                        },
+                        [_vm._v("Login")]
+                      )
                     ],
                     1
                   )
@@ -42465,7 +42561,17 @@ var render = function() {
                 return [
                   _c(
                     "div",
-                    { staticClass: "pa-2" },
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.auth == false,
+                          expression: "auth==false"
+                        }
+                      ],
+                      staticClass: "pa-2"
+                    },
                     [
                       _c(
                         "v-btn",
@@ -42478,6 +42584,37 @@ var render = function() {
                           }
                         },
                         [_vm._v("Login")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.auth == true,
+                          expression: "auth==true"
+                        }
+                      ],
+                      staticClass: "pa-2"
+                    },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { block: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.slug = _vm.$router.push("/")
+                              _vm.logout()
+                            }
+                          }
+                        },
+                        [_vm._v("Logout")]
                       )
                     ],
                     1
@@ -103083,7 +103220,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
 var store = new vuex__WEBPACK_IMPORTED_MODULE_3__["default"].Store({
   state: {
     slug: null,
-    cart: []
+    cart: [],
+    token: null
   },
   mutations: {
     slug: function slug(state, payload) {
@@ -103107,6 +103245,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_3__["default"].Store({
       state.cart = state.cart.filter(function (item) {
         return item.id !== payload;
       });
+    },
+    auth: function auth(state, payload) {
+      state.token = payload;
+    },
+    logout: function logout(state) {
+      state.token = null;
     }
   },
   actions: {},

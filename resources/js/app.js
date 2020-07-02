@@ -29,7 +29,8 @@ const store = new Vuex.Store({
 
   state: {
       slug: null,
-      cart: []
+      cart: [],
+      token: null,
   },
   mutations: {
     slug(state, payload){
@@ -50,6 +51,13 @@ const store = new Vuex.Store({
     },
     removeFromCart(state,payload){
       state.cart = state.cart.filter(item => item.id !== payload);
+    },
+    auth(state,payload){
+      
+      state.token = payload;
+    },
+    logout(state){
+      state.token = null;
     }
   },
   actions: {},

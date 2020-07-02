@@ -28,7 +28,7 @@ class AuthController extends Controller
             $cookie = $this->getCookieDetails($token);
             return response()
                 ->json([
-                    'logged_in_user' => $user,
+                    'user' => $user,
                     'token' => $token,
                 ], 200)
                 ->cookie($cookie['name'], $cookie['value'], $cookie['minutes'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly'], $cookie['samesite']);
