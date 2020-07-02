@@ -15,7 +15,8 @@
         "laravel/helpers": "^1.2",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
-        "spatie/laravel-medialibrary": "^8.0.0"
+        "spatie/laravel-medialibrary": "^8.0.0",
+        "spatie/laravel-permission": "^3.13"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

@@ -22,6 +22,7 @@ Route::apiResource('products', 'ProductController')->only([
     'index', 'show'
 ]);
 Route::post('login', 'AuthController@login');
+Route::get('user', 'UserController@index');
   
 Route::group(['middleware' => 'auth.api'], function() {
     Route::get('logout', 'AuthController@logout');
