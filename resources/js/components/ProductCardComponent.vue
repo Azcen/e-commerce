@@ -7,7 +7,12 @@
         <v-item-group>
             <v-container grid-list-md>
                 <v-layout wrap>
-                    <div v-if="loading">Cargando...</div>
+                    <div v-if="loading">
+                        <v-progress-circular
+                        indeterminate
+                        color="purple"
+                        ></v-progress-circular>
+                    </div>
                     <v-flex v-else v-for="(product, index ) in info" :key="index" xs12 md4>
                         <v-item>
                             
@@ -23,33 +28,21 @@
                                 </v-card-subtitle>
 
                                 <v-card-actions>
-                                    <v-btn text>Share</v-btn>
+                                    <v-btn text @click="addToCart(product)">Add to Cart</v-btn>
 
                                     <v-btn color="purple" v-model="slug" @click="slug = product.slug; $store.commit('slug',slug); $router.push(product.slug)" text >
                                        
-                                       url to example
+                                       View
                                        
                                     </v-btn>
-                                    <v-btn :to="`${product.slug}`" >
-a                                       asd
-                                    </v-btn>
+                                    
 
                                     <v-spacer></v-spacer>
 
-                                    <v-btn icon @click="show = !show">
-                                        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                                    </v-btn>
+                                    
                                 </v-card-actions>
 
-                                <v-expand-transition>
-                                    <div v-show="show">
-                                        <v-divider></v-divider>
-
-                                        <v-card-text>
-                                            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-                                        </v-card-text>
-                                    </div>
-                                </v-expand-transition>
+                                
                             </v-card>
                         </v-item>
                     </v-flex>
@@ -125,8 +118,16 @@ export default {
             this.pagination.current_page = page;
             this.getProducts(page);
         },
+        addToCart(item) {
+        this.$store.commit('addToCart', item);
+        },
        
     }
 
 }
 </script>
+<style scoped>
+.v-progress-circular {
+  margin: 1rem;
+}
+</style>

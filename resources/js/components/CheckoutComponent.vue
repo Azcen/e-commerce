@@ -265,7 +265,7 @@ export default {
         // for (let item of this.$store.state.cart) {
         //     total += item.totalPrice;
         // }
-        const total = this.$store.state.cart.reduce(((accumulator, current) => accumulator + current.totalPrice),0);
+        const total = this.$store.state.cart.reduce(((accumulator, current) => accumulator + Number(current.totalPrice)),0);
 
         return total.toFixed(2);
         },

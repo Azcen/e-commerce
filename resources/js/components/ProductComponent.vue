@@ -75,10 +75,11 @@
                 <v-btn
                     text
                     color="deep-purple accent-4"
-                    @click="$router.push('/checkout')" 
+                    @click="addToCart(info);$router.push('/checkout')" 
                 >
                    Check out
                 </v-btn>
+                
                 <v-spacer></v-spacer>
                 <v-btn icon>
                     <v-icon>mdi-heart</v-icon>

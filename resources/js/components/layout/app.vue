@@ -10,10 +10,10 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>Products</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="$router.push('/checkout')" >
           <v-list-item-action>
               <v-badge
                 :content="amount"
@@ -22,7 +22,7 @@
                 overlap
                 
                 >
-                <v-icon large>mdi-cart</v-icon>
+                <v-icon>mdi-cart</v-icon>
             </v-badge>
             
           </v-list-item-action>
@@ -31,6 +31,14 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block>Login</v-btn>
+        </div>
+        <div class="pa-2">
+          <v-btn block>Register</v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar
@@ -39,7 +47,8 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>E-Commerce</v-toolbar-title>
+      <v-toolbar-title>E-Commerce</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
