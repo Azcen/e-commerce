@@ -28,14 +28,28 @@ const router = new VueRouter({
 const store = new Vuex.Store({
 
   state: {
-      slug: null
+      slug: null,
+      cart: []
   },
   mutations: {
     slug(state, payload){
-      
         state.slug = payload
-      
-      
+    },
+    addToCart(state, payload) {
+      let found = state.cart.find(product => product.id == payload.id);
+
+      if (found) {
+          found.quantity ++;
+          found.totalPrice = found.quantity * found.price;
+      } else {
+          state.cart.push(payload);
+
+          Vue.set(payload, 'quantity', 1);
+          Vue.set(payload, 'totalPrice', payload.price);
+      }
+    },
+    removeFromCart(state,payload){
+      state.cart = state.cart.filter(item => item.id !== payload);
     }
   },
   actions: {},
@@ -65,6 +79,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 Vue.component('product-card', require('./components/ProductCardComponent.vue').default);
 Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
+Vue.component('checkout', require('./components/CheckoutComponent.vue').default);
 
 const app = new Vue({
   el: '#app',

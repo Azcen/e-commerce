@@ -68,12 +68,14 @@
                 <v-btn
                     text
                     color="deep-purple accent-4"
+                    @click="addToCart(info)"
                 >
                     Add To Cart
                 </v-btn>
                 <v-btn
                     text
                     color="deep-purple accent-4"
+                    @click="$router.push('/checkout')" 
                 >
                    Check out
                 </v-btn>
@@ -85,6 +87,7 @@
                     <v-icon>mdi-share-variant</v-icon>
                 </v-btn>
             </v-card-actions>
+            
         </v-card>
       </v-col>
     </v-row>
@@ -113,6 +116,18 @@ export default {
         
         slug(){
             return this.$store.state.slug
+        },
+        cart(){
+            return this.$store.state.cart
+        },
+        totalPrice() {
+        let total = 0;
+
+        for (let item of this.$store.state.cart) {
+            total += item.totalPrice;
+        }
+
+        return total.toFixed(2);
         }
     },
     methods:{
@@ -131,7 +146,11 @@ export default {
             })
             .finally(() => this.loading = false)
 
-        }
+        },
+        addToCart(item) {
+        this.$store.commit('addToCart', item);
+        },
+        
     }
 
 }
