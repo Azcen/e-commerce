@@ -5,7 +5,7 @@
       app
     >
       <v-list dense>
-        <v-list-item link>
+        <v-list-item link @click="$router.push('/')">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
@@ -15,10 +15,19 @@
         </v-list-item>
         <v-list-item link>
           <v-list-item-action>
-            <v-icon>mdi-email</v-icon>
+              <v-badge
+                :content="amount"
+                :value="amount"
+                color="green"
+                overlap
+                
+                >
+                <v-icon large>mdi-cart</v-icon>
+            </v-badge>
+            
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>Checkout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -63,6 +72,15 @@
     },
     data: () => ({
       drawer: null,
+      
+      show: false,
     }),
+    computed:{
+        amount(){
+
+            return this.$store.state.cart.length;
+        }
+
+    }
   }
 </script>
