@@ -47,15 +47,57 @@
 
         </v-list>
         <template v-slot:append>
-            <div class="pa-2" v-show="auth==false" >
+            <div class="pb-2" v-show="auth==false">
                 <v-btn block @click="$router.push('/login')">Login</v-btn>
             </div>
-            <div class="pa-2" v-show="auth==true" >
+            <div class="pb-2" v-show="auth==true">
                 <v-btn block @click="logout();">Logout</v-btn>
             </div>
-            <div class="pa-2">
-                <v-btn block>Register</v-btn>
-            </div>
+
+            <v-row justify="center">
+                <v-dialog v-model="dialog" persistent max-width="600px">
+                    <template class="pa-3" v-slot:activator="{ on, attrs }">
+
+                        <v-btn block v-bind="attrs" v-on="on">
+                            Register
+                        </v-btn>
+                        
+                    </template>
+                    <v-card>
+                        
+                        <v-card-title>
+                            <span class="headline">User Profile</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="credentials.name" label="Username*" required></v-text-field>
+                                    </v-col>
+                                    
+                                    <v-col cols="12">
+                                        <v-text-field v-model="credentials.email" label="Email*" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="credentials.password" label="Password*" type="password" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="credentials.password_confirmation" label="Verify Password*" type="password" required></v-text-field>
+                                    </v-col>
+                                    
+                                </v-row>
+                            </v-container>
+                            <small>*indicates required field</small>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                            <v-btn color="blue darken-1" text @click="dialog = false;register(credentials);">Submit</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-row>
+
         </template>
     </v-navigation-drawer>
 
@@ -68,11 +110,10 @@
     <v-main>
         <v-container class="fill-height" fluid>
             <v-row align="center" justify="center">
-                <!-- there my components -->
+                
                 <router-view></router-view>
-                <!-- <passport-clients></passport-clients>
-          <passport-authorized-clients></passport-authorized-clients>
-          <passport-personal-access-tokens></passport-personal-access-tokens> -->
+                <v-snackbar :timeout="4000" v-model="sucess" absolute bottom color="success">{{msg}}</v-snackbar>
+          
             </v-row>
         </v-container>
     </v-main>
@@ -89,6 +130,10 @@ export default {
     },
     data() {
         return {
+            sucess: false,
+            msg: "",
+            credentials: [],
+            dialog: false,
             info: null,
             drawer: null,
             show: false,
@@ -137,6 +182,30 @@ export default {
                 })
                 .finally(() => (this.loading = false));
             this.$router.push('/');
+        },
+        register(credentials){
+            let data = {
+                    name: credentials.name,
+                    email: credentials.email,
+                    password: credentials.password,
+                    password_confirmation: credentials.password_confirmation
+                };
+            
+            const urlSignup = "/api/auth/signup";
+            axios
+                    .post(urlSignup, data)
+                    .then(response => {
+                        console.log(response.data);
+                        this.msg = response.data.message;
+                        
+                            this.sucess = true;
+                        
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        this.error = true;
+                    })
+                    .finally(() => (this.loading = false));
         }
     }
 };

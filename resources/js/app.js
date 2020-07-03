@@ -56,7 +56,6 @@ Vue.component('checkout', require('./components/CheckoutComponent.vue').default)
 Vue.component('login', require('./components/auth/LoginComponent.vue').default);
 Vue.component('admin', require('./components/admin/AdminDashboard.vue').default);
 Vue.component('table-users', require('./components/admin/UsersTableComponent.vue').default);
-Vue.component('table-products', require('./components/admin/ProductsTableComponent.vue').default);
 Vue.component(
   'passport-clients',
   require('./components/passport/Clients.vue').default

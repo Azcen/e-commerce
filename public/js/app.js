@@ -3101,10 +3101,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      sucess: false,
       msg: "",
       dialog: false,
       show: false,
-      sucess: false,
       roles: ["Admin", "Customer"],
       headers: [{
         text: "User Name",
@@ -3487,12 +3487,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
   },
   data: function data() {
     return {
+      sucess: false,
+      msg: "",
+      credentials: [],
+      dialog: false,
       info: null,
       drawer: null,
       show: false
@@ -3538,6 +3583,27 @@ __webpack_require__.r(__webpack_exports__);
         return _this.loading = false;
       });
       this.$router.push('/');
+    },
+    register: function register(credentials) {
+      var _this2 = this;
+
+      var data = {
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+        password_confirmation: credentials.password_confirmation
+      };
+      var urlSignup = "/api/auth/signup";
+      axios.post(urlSignup, data).then(function (response) {
+        console.log(response.data);
+        _this2.msg = response.data.message;
+        _this2.sucess = true;
+      })["catch"](function (error) {
+        console.log(error.response.status);
+        _this2.error = true;
+      })["finally"](function () {
+        return _this2.loading = false;
+      });
     }
   }
 });
@@ -44969,7 +45035,7 @@ var render = function() {
                           expression: "auth==false"
                         }
                       ],
-                      staticClass: "pa-2"
+                      staticClass: "pb-2"
                     },
                     [
                       _c(
@@ -44999,7 +45065,7 @@ var render = function() {
                           expression: "auth==true"
                         }
                       ],
-                      staticClass: "pa-2"
+                      staticClass: "pb-2"
                     },
                     [
                       _c(
@@ -45019,12 +45085,236 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "pa-2" },
+                    "v-row",
+                    { attrs: { justify: "center" } },
                     [
-                      _c("v-btn", { attrs: { block: "" } }, [
-                        _vm._v("Register")
-                      ])
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "600px" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        { attrs: { block: "" } },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [
+                                      _vm._v(
+                                        "\r\n                            Register\r\n                        "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ]),
+                          model: {
+                            value: _vm.dialog,
+                            callback: function($$v) {
+                              _vm.dialog = $$v
+                            },
+                            expression: "dialog"
+                          }
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-card",
+                            [
+                              _c("v-card-title", [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v("User Profile")
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-container",
+                                    [
+                                      _c(
+                                        "v-row",
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  label: "Username*",
+                                                  required: ""
+                                                },
+                                                model: {
+                                                  value: _vm.credentials.name,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.credentials,
+                                                      "name",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "credentials.name"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  label: "Email*",
+                                                  required: ""
+                                                },
+                                                model: {
+                                                  value: _vm.credentials.email,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.credentials,
+                                                      "email",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression:
+                                                    "credentials.email"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  label: "Password*",
+                                                  type: "password",
+                                                  required: ""
+                                                },
+                                                model: {
+                                                  value:
+                                                    _vm.credentials.password,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.credentials,
+                                                      "password",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression:
+                                                    "credentials.password"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  label: "Verify Password*",
+                                                  type: "password",
+                                                  required: ""
+                                                },
+                                                model: {
+                                                  value:
+                                                    _vm.credentials
+                                                      .password_confirmation,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.credentials,
+                                                      "password_confirmation",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression:
+                                                    "credentials.password_confirmation"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("small", [
+                                    _vm._v("*indicates required field")
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = false
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Close")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = false
+                                          _vm.register(_vm.credentials)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Submit")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
@@ -45264,7 +45554,29 @@ var render = function() {
               _c(
                 "v-row",
                 { attrs: { align: "center", justify: "center" } },
-                [_c("router-view")],
+                [
+                  _c("router-view"),
+                  _vm._v(" "),
+                  _c(
+                    "v-snackbar",
+                    {
+                      attrs: {
+                        timeout: 4000,
+                        absolute: "",
+                        bottom: "",
+                        color: "success"
+                      },
+                      model: {
+                        value: _vm.sucess,
+                        callback: function($$v) {
+                          _vm.sucess = $$v
+                        },
+                        expression: "sucess"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.msg))]
+                  )
+                ],
                 1
               )
             ],
@@ -106975,7 +107287,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('checkout', __webpack_requi
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('login', __webpack_require__(/*! ./components/auth/LoginComponent.vue */ "./resources/js/components/auth/LoginComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('admin', __webpack_require__(/*! ./components/admin/AdminDashboard.vue */ "./resources/js/components/admin/AdminDashboard.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('table-users', __webpack_require__(/*! ./components/admin/UsersTableComponent.vue */ "./resources/js/components/admin/UsersTableComponent.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('table-products', __webpack_require__(/*! ./components/admin/ProductsTableComponent.vue */ "./resources/js/components/admin/ProductsTableComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);

@@ -62,10 +62,10 @@
 <script>
 export default {
     data: () => ({
+        sucess: false,
         msg: "",
         dialog: false,
         show: false,
-        sucess: false,
         roles: ["Admin", "Customer"],
         headers: [{
                 text: "User Name",
