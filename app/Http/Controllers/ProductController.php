@@ -29,6 +29,11 @@ class ProductController extends Controller
             'products' => $products
         ];
     }
+    public function getAll(Request $request)
+    {
+        
+        return  $products =  Product::all();
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,13 +45,16 @@ class ProductController extends Controller
     {
         $product = Product::create([
             'name' => $request->name,
-            'slug' => str_slug($request->name, '-'),
+            
             'description' => $request->description,
             'price' => $request->price
         ]);
-        //$product->slug = str_slug($this->name, '-');
+        $product->slug;
 
-        return response()->json($product, 201);
+        return response()->json([
+            'product' => $product,
+            'message' => 'Successfully created Product!'
+        ], 201);
     }
 
     /**
@@ -69,16 +77,22 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $product->update([
-            'name' => $request->name,
-            'slug' => str_slug($request->name, '-'),
-            'description' => $request->description,
-            'price' => $request->price
-        ]);
+        $product = Product::find($request->id);
+        
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->status = ($request->status == 'Avaliable' ? 1 : 0);
 
-        return response()->json($product, 200);
+        $product->save();
+        
+        
+
+        return response()->json([
+            'message' => 'Successfully updated user!'
+        ], 201);
     }
 
     /**
@@ -89,8 +103,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $product = Product::find($id);
         $product->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Successfully Deleted Product!'
+        ], 201);
     }
 }

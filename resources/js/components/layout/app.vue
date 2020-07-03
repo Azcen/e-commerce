@@ -26,7 +26,7 @@
                     <v-list-item-title>Users</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="$router.push('/')" v-show="role=='Admin'">
+            <v-list-item link @click="$router.push('/admin/products')" v-show="role=='Admin'">
                 <v-list-item-action>
                     <v-icon>mdi-pencil</v-icon>
                 </v-list-item-action>

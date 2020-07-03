@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get ('/products/all', 'ProductController@getAll');
 Route::apiResource('products', 'ProductController')->only([
     'index', 'show'
 ]);
@@ -28,9 +28,7 @@ Route::get('userstable', 'UserController@index');
     Route::get('logout', 'AuthController@logout');
 
     
-    Route::apiResource('products', 'ProductController')->except([
-        'index', 'show'
-    ]);
+    
 });*/
 
 Route::group([
@@ -39,6 +37,7 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
     Route::post('register', 'AuthController@adminregis');
+    
   
     Route::group([
       'middleware' => 'auth:api'
@@ -46,6 +45,13 @@ Route::group([
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
         Route::patch ('update', 'AuthController@update');
+        Route::patch ('products/update', 'ProductController@update');
+        Route::post ('products/create', 'ProductController@store');
         Route::delete ('delete/{id}', 'AuthController@destroy');
+        Route::delete ('products/delete/{id}', 'ProductController@destroy');
+
+        
+        
+
     });
 });

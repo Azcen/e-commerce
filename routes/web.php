@@ -16,15 +16,15 @@
 });*/
 
 
-Route::get('/{vue_capture?}', function () {
-    return view('welcome');
-   })->where('vue_capture', '[\/\w\.-]*');
+
 
 
 Auth::routes();
 
-//Route::get('/admin', 'AdminController@index')->name('admin');
-Route::get('/admin/products', 'AdminController@products')->name('products');
+
+Route::get('/{vue_capture?}', function () {
+    return view('welcome');
+   })->where('vue_capture', '[\/\w\.-]*');
 
 
 
