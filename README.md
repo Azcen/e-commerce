@@ -77,4 +77,16 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## e-commerce
+# App installation
+
+# use the following commands to run the proyect
+- composer install
+- npm install
+- touch .env (and fill with your database credentials)
+- php artisan key:generate
+- php artisan migrate --seed
+- php artisan passport:install
+- npm run dev
+- php artisan serve
+
+## thats the orden i use to follow to run my proyects
