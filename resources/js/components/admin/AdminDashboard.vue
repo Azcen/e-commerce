@@ -19,7 +19,7 @@
             </v-card>
         </v-col>
     </v-row>
-    <div v-if="this.$store.state.userRole == 'Admin'">You-re Admin.</div>
+    
 </v-container>
 </template>
 

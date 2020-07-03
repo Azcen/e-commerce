@@ -28,61 +28,6 @@ const router = new VueRouter({
 });
 
 
-
-
-/*
-const store = new Vuex.Store({
-
-  state: {
-    slug: null,
-    cart: [],
-    token: null,
-    userName: null,
-    userEmail: null,
-    userRole: null,
-  },
-  mutations: {
-    slug(state, payload) {
-      state.slug = payload
-    },
-    addToCart(state, payload) {
-      let found = state.cart.find(product => product.id == payload.id);
-
-      if (found) {
-        found.quantity++;
-        found.totalPrice = found.quantity * found.price;
-      } else {
-        state.cart.push(payload);
-
-        Vue.set(payload, 'quantity', 1);
-        Vue.set(payload, 'totalPrice', payload.price);
-      }
-    },
-    removeFromCart(state, payload) {
-      state.cart = state.cart.filter(item => item.id !== payload);
-    },
-    auth(state, payload) {
-
-      state.token = payload;
-    },
-    logout(state) {
-      state.token = null;
-      state.userName = null;
-      state.userEmail = null;
-      state.userRole = null;
-    },
-    userInfo(state,payload){
-      
-      state.userName = payload.name;
-      state.userEmail = payload.email;
-      state.userRole = payload.role;
-    }
-  },
-  actions: {},
-  plugins: [new VuexPersistence().plugin]
-})
-
-*/
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -110,6 +55,7 @@ Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 Vue.component('checkout', require('./components/CheckoutComponent.vue').default);
 Vue.component('login', require('./components/auth/LoginComponent.vue').default);
 Vue.component('admin', require('./components/admin/AdminDashboard.vue').default);
+Vue.component('table-users', require('./components/admin/UsersTableComponent.vue').default);
 Vue.component(
   'passport-clients',
   require('./components/passport/Clients.vue').default

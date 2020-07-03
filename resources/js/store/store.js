@@ -12,8 +12,7 @@ export default new Vuex.Store({
           token: null,
           userName: null,
           userEmail: null,
-          userRole: null,
-          user:[]
+          userRole: 'Guest'
         },
         mutations: {
           slug(state, payload) {
@@ -50,8 +49,8 @@ export default new Vuex.Store({
             state.token = null;
             state.userName = null;
             state.userEmail = null;
-            state.userRole = null;
-            state.user = null;
+            state.userRole = 'Guest';
+            
           },
           
         },

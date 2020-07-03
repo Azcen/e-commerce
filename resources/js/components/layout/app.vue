@@ -2,7 +2,7 @@
 <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
         <v-list dense>
-            <v-list-item link @click="$router.push('/')">
+            <v-list-item link @click="$router.push('/')" v-show="role=='Guest'">
                 <v-list-item-action>
                     <v-icon>mdi-home</v-icon>
                 </v-list-item-action>
@@ -10,7 +10,31 @@
                     <v-list-item-title>Products</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="$router.push('/checkout')">
+            <v-list-item link @click="$router.push('/')" v-show="role=='Admin'">
+                <v-list-item-action>
+                    <v-icon>mdi-view-dashboard</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>Dashboard</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link @click="$router.push('/admin/users')" v-show="role=='Admin'">
+                <v-list-item-action>
+                    <v-icon>mdi-account-group-outline</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>Users</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link @click="$router.push('/')" v-show="role=='Admin'">
+                <v-list-item-action>
+                    <v-icon>mdi-pencil</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>Products</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link @click="$router.push('/checkout')" v-show="role=='Guest'">
                 <v-list-item-action>
                     <v-badge :content="amount" :value="amount" color="green" overlap>
                         <v-icon>mdi-cart</v-icon>
@@ -75,6 +99,9 @@ export default {
     computed: {
         amount() {
             return this.$store.state.cart.length;
+        },
+        role() {
+            return this.$store.state.userRole;
         },
         auth() {
             if (this.$store.state.token) {

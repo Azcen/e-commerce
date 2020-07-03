@@ -2747,6 +2747,272 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/UsersTableComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/UsersTableComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      msg: "",
+      dialog: false,
+      show: false,
+      sucess: false,
+      roles: ["Admin", "Customer"],
+      headers: [{
+        text: "User Name",
+        align: "start",
+        sortable: false,
+        value: "name"
+      }, {
+        text: "Email",
+        value: "email"
+      }, {
+        text: "Role",
+        value: "role"
+      }, {
+        text: "Actions",
+        value: "actions",
+        sortable: false
+      }],
+      rules: {
+        required: function required(value) {
+          return !!value || "Required.";
+        },
+        min: function min(v) {
+          return v.length >= 8 || "Min 8 characters";
+        },
+        email: function email(value) {
+          var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail";
+        }
+      },
+      users: [],
+      editedIndex: -1,
+      editedItem: {
+        name: "",
+        email: "",
+        password: "",
+        role: ""
+      },
+      defaultItem: {
+        name: "",
+        email: "",
+        password: "",
+        role: ""
+      }
+    };
+  },
+  computed: {
+    formTitle: function formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
+    }
+  },
+  created: function created() {
+    this.initialize();
+  },
+  methods: {
+    initialize: function initialize() {
+      var _this = this;
+
+      var urlTable = "/api/userstable";
+      var headers = {
+        Authorization: "Bearer ".concat(this.$store.state.token),
+        //the token is a variable which holds the token
+        Accept: "application/json"
+      };
+      axios.get(urlTable).then(function (response) {
+        _this.users = response.data;
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        _this.error = true;
+      })["finally"](function () {
+        return _this.loading = false;
+      });
+    },
+    editItem: function editItem(item) {
+      this.editedIndex = this.users.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+    deleteItem: function deleteItem(item) {
+      var _this2 = this;
+
+      var index = this.users.indexOf(item);
+      console.log(item);
+      confirm("Are you sure you want to delete this item?") && this.users.splice(index, 1);
+      var urlDelete = "/api/auth/delete/" + item.id;
+      var headers = {
+        Authorization: "Bearer ".concat(this.$store.state.token),
+        //the token is a variable which holds the token
+        Accept: "application/json"
+      };
+      axios["delete"](urlDelete, {
+        headers: headers
+      }).then(function (response) {
+        console.log(response);
+        _this2.msg = response.data.message;
+
+        if (response) {
+          _this2.sucess = true;
+        }
+      })["catch"](function (error) {
+        console.log(error.response);
+        _this2.error = true;
+      })["finally"](function () {
+        return _this2.loading = false;
+      });
+    },
+    close: function close() {
+      var _this3 = this;
+
+      this.dialog = false;
+      this.$nextTick(function () {
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
+      });
+    },
+    save: function save() {
+      var _this4 = this;
+
+      console.log(this.editedItem.id);
+      var urlEdit = "/api/auth/update";
+      var urlSignup = "/api/auth/register";
+      var headers = {
+        Authorization: "Bearer ".concat(this.$store.state.token),
+        //the token is a variable which holds the token
+        Accept: "application/json"
+      };
+
+      if (this.editedItem.id) {
+        axios.patch(urlEdit, this.editedItem, {
+          headers: headers
+        }).then(function (response) {
+          console.log(response);
+          _this4.msg = response.data.message;
+
+          if (response) {
+            _this4.sucess = true;
+          }
+        })["catch"](function (error) {
+          console.log(error.response);
+          _this4.error = true;
+        })["finally"](function () {
+          return _this4.loading = false;
+        });
+        this.close();
+      } else {
+        var data = {
+          name: this.editedItem.name,
+          email: this.editedItem.email,
+          password: this.editedItem.password,
+          role: this.editedItem.role
+        };
+        axios.post(urlSignup, data, {
+          headers: headers
+        }).then(function (response) {
+          console.log(response.data);
+          _this4.msg = response.data.message;
+
+          if (response) {
+            _this4.sucess = true;
+            var user = {
+              "id": response.data.user.id,
+              "name": response.data.user.name,
+              "email": response.data.user.email,
+              "role": response.data.user.roles.name
+            };
+
+            _this4.users.push(user);
+
+            console.log(response.data);
+          }
+        })["catch"](function (error) {
+          console.log(error.response.status);
+          _this4.error = true;
+        })["finally"](function () {
+          return _this4.loading = false;
+        });
+        this.close();
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/auth/LoginComponent.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/auth/LoginComponent.vue?vue&type=script&lang=js& ***!
@@ -2916,6 +3182,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -2930,6 +3220,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     amount: function amount() {
       return this.$store.state.cart.length;
+    },
+    role: function role() {
+      return this.$store.state.userRole;
     },
     auth: function auth() {
       if (this.$store.state.token) {
@@ -43483,11 +43776,378 @@ var render = function() {
           )
         }),
         1
-      ),
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/UsersTableComponent.vue?vue&type=template&id=3f0e9adc&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/UsersTableComponent.vue?vue&type=template&id=3f0e9adc& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: { headers: _vm.headers, items: _vm.users },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c(
+                  "v-toolbar",
+                  { attrs: { flat: "", color: "white" } },
+                  [
+                    _c("v-toolbar-title", [_vm._v("Users")]),
+                    _vm._v(" "),
+                    _c("v-divider", {
+                      staticClass: "mx-4",
+                      attrs: { inset: "", vertical: "" }
+                    }),
+                    _vm._v(" "),
+                    _c("v-spacer"),
+                    _vm._v(" "),
+                    _c(
+                      "v-dialog",
+                      {
+                        attrs: { "max-width": "500px" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "activator",
+                            fn: function(ref) {
+                              var on = ref.on
+                              var attrs = ref.attrs
+                              return [
+                                _c(
+                                  "v-btn",
+                                  _vm._g(
+                                    _vm._b(
+                                      {
+                                        staticClass: "mb-2",
+                                        attrs: { color: "primary", dark: "" }
+                                      },
+                                      "v-btn",
+                                      attrs,
+                                      false
+                                    ),
+                                    on
+                                  ),
+                                  [_vm._v("New Item")]
+                                )
+                              ]
+                            }
+                          }
+                        ]),
+                        model: {
+                          value: _vm.dialog,
+                          callback: function($$v) {
+                            _vm.dialog = $$v
+                          },
+                          expression: "dialog"
+                        }
+                      },
+                      [
+                        _vm._v(" "),
+                        _c(
+                          "v-card",
+                          [
+                            _c("v-card-title", [
+                              _c("span", { staticClass: "headline" }, [
+                                _vm._v(_vm._s(_vm.formTitle))
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-text",
+                              [
+                                _c(
+                                  "v-container",
+                                  [
+                                    _c(
+                                      "v-row",
+                                      [
+                                        _c(
+                                          "v-col",
+                                          {
+                                            attrs: {
+                                              cols: "12",
+                                              sm: "6",
+                                              md: "4"
+                                            }
+                                          },
+                                          [
+                                            _c("v-text-field", {
+                                              attrs: {
+                                                rules: [_vm.rules.required],
+                                                label: "Username"
+                                              },
+                                              model: {
+                                                value: _vm.editedItem.name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.editedItem,
+                                                    "name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "editedItem.name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-col",
+                                          {
+                                            attrs: {
+                                              cols: "12",
+                                              sm: "6",
+                                              md: "4"
+                                            }
+                                          },
+                                          [
+                                            _c("v-text-field", {
+                                              attrs: {
+                                                rules: [
+                                                  _vm.rules.required,
+                                                  _vm.rules.email
+                                                ],
+                                                label: "Email"
+                                              },
+                                              model: {
+                                                value: _vm.editedItem.email,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.editedItem,
+                                                    "email",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "editedItem.email"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-col",
+                                          {
+                                            attrs: {
+                                              cols: "12",
+                                              sm: "6",
+                                              md: "4"
+                                            }
+                                          },
+                                          [
+                                            _c("v-text-field", {
+                                              staticClass:
+                                                "input-group--focused",
+                                              attrs: {
+                                                "append-icon": _vm.show
+                                                  ? "mdi-eye"
+                                                  : "mdi-eye-off",
+                                                rules: [
+                                                  _vm.rules.required,
+                                                  _vm.rules.min
+                                                ],
+                                                type: _vm.show
+                                                  ? "text"
+                                                  : "password",
+                                                name: "input-10-2",
+                                                label: "Password",
+                                                hint: "At least 8 characters"
+                                              },
+                                              on: {
+                                                "click:append": function(
+                                                  $event
+                                                ) {
+                                                  _vm.show = !_vm.show
+                                                }
+                                              },
+                                              model: {
+                                                value: _vm.editedItem.password,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.editedItem,
+                                                    "password",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "editedItem.password"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-col",
+                                          {
+                                            attrs: {
+                                              cols: "12",
+                                              sm: "6",
+                                              md: "4"
+                                            }
+                                          },
+                                          [
+                                            _c("v-select", {
+                                              attrs: {
+                                                items: _vm.roles,
+                                                label: "Roles"
+                                              },
+                                              model: {
+                                                value: _vm.editedItem.role,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.editedItem,
+                                                    "role",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "editedItem.role"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-actions",
+                              [
+                                _c("v-spacer"),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { color: "blue darken-1", text: "" },
+                                    on: { click: _vm.close }
+                                  },
+                                  [_vm._v("Cancel")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { color: "blue darken-1", text: "" },
+                                    on: { click: _vm.save }
+                                  },
+                                  [_vm._v("Save")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "mr-2",
+                    attrs: { small: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.editItem(item)
+                      }
+                    }
+                  },
+                  [_vm._v("mdi-pencil")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    attrs: { small: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteItem(item)
+                      }
+                    }
+                  },
+                  [_vm._v("mdi-delete")]
+                )
+              ]
+            }
+          },
+          {
+            key: "no-data",
+            fn: function() {
+              return [
+                _c(
+                  "v-btn",
+                  {
+                    attrs: { color: "primary" },
+                    on: { click: _vm.initialize }
+                  },
+                  [_vm._v("Reset")]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ])
+      }),
       _vm._v(" "),
-      this.$store.state.userRole == "Admin"
-        ? _c("div", [_vm._v("You-re Admin.")])
-        : _vm._e()
+      _c(
+        "v-snackbar",
+        {
+          attrs: { timeout: 4000, absolute: "", bottom: "", color: "success" },
+          model: {
+            value: _vm.sucess,
+            callback: function($$v) {
+              _vm.sucess = $$v
+            },
+            expression: "sucess"
+          }
+        },
+        [_vm._v(_vm._s(_vm.msg))]
+      )
     ],
     1
   )
@@ -43759,6 +44419,14 @@ var render = function() {
               _c(
                 "v-list-item",
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.role == "Guest",
+                      expression: "role=='Guest'"
+                    }
+                  ],
                   attrs: { link: "" },
                   on: {
                     click: function($event) {
@@ -43785,6 +44453,116 @@ var render = function() {
               _c(
                 "v-list-item",
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.role == "Admin",
+                      expression: "role=='Admin'"
+                    }
+                  ],
+                  attrs: { link: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$router.push("/")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("Dashboard")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.role == "Admin",
+                      expression: "role=='Admin'"
+                    }
+                  ],
+                  attrs: { link: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$router.push("/admin/users")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("mdi-account-group-outline")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("Users")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.role == "Admin",
+                      expression: "role=='Admin'"
+                    }
+                  ],
+                  attrs: { link: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$router.push("/")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("mdi-pencil")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("Products")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.role == "Guest",
+                      expression: "role=='Guest'"
+                    }
+                  ],
                   attrs: { link: "" },
                   on: {
                     click: function($event) {
@@ -105543,60 +106321,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'history',
   routes: _routes__WEBPACK_IMPORTED_MODULE_4__["routes"]
 });
-/*
-const store = new Vuex.Store({
-
-  state: {
-    slug: null,
-    cart: [],
-    token: null,
-    userName: null,
-    userEmail: null,
-    userRole: null,
-  },
-  mutations: {
-    slug(state, payload) {
-      state.slug = payload
-    },
-    addToCart(state, payload) {
-      let found = state.cart.find(product => product.id == payload.id);
-
-      if (found) {
-        found.quantity++;
-        found.totalPrice = found.quantity * found.price;
-      } else {
-        state.cart.push(payload);
-
-        Vue.set(payload, 'quantity', 1);
-        Vue.set(payload, 'totalPrice', payload.price);
-      }
-    },
-    removeFromCart(state, payload) {
-      state.cart = state.cart.filter(item => item.id !== payload);
-    },
-    auth(state, payload) {
-
-      state.token = payload;
-    },
-    logout(state) {
-      state.token = null;
-      state.userName = null;
-      state.userEmail = null;
-      state.userRole = null;
-    },
-    userInfo(state,payload){
-      
-      state.userName = payload.name;
-      state.userEmail = payload.email;
-      state.userRole = payload.role;
-    }
-  },
-  actions: {},
-  plugins: [new VuexPersistence().plugin]
-})
-
-*/
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -105620,6 +106344,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('side-bar', __webpack_requi
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('checkout', __webpack_require__(/*! ./components/CheckoutComponent.vue */ "./resources/js/components/CheckoutComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('login', __webpack_require__(/*! ./components/auth/LoginComponent.vue */ "./resources/js/components/auth/LoginComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('admin', __webpack_require__(/*! ./components/admin/AdminDashboard.vue */ "./resources/js/components/admin/AdminDashboard.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('table-users', __webpack_require__(/*! ./components/admin/UsersTableComponent.vue */ "./resources/js/components/admin/UsersTableComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);
@@ -106109,6 +106834,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/admin/UsersTableComponent.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/admin/UsersTableComponent.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UsersTableComponent_vue_vue_type_template_id_3f0e9adc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersTableComponent.vue?vue&type=template&id=3f0e9adc& */ "./resources/js/components/admin/UsersTableComponent.vue?vue&type=template&id=3f0e9adc&");
+/* harmony import */ var _UsersTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersTableComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/UsersTableComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _UsersTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UsersTableComponent_vue_vue_type_template_id_3f0e9adc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UsersTableComponent_vue_vue_type_template_id_3f0e9adc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/admin/UsersTableComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/UsersTableComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/admin/UsersTableComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersTableComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/UsersTableComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/UsersTableComponent.vue?vue&type=template&id=3f0e9adc&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/admin/UsersTableComponent.vue?vue&type=template&id=3f0e9adc& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTableComponent_vue_vue_type_template_id_3f0e9adc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersTableComponent.vue?vue&type=template&id=3f0e9adc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/UsersTableComponent.vue?vue&type=template&id=3f0e9adc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTableComponent_vue_vue_type_template_id_3f0e9adc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTableComponent_vue_vue_type_template_id_3f0e9adc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/auth/LoginComponent.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/auth/LoginComponent.vue ***!
@@ -106523,7 +107317,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_CheckoutComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/CheckoutComponent.vue */ "./resources/js/components/CheckoutComponent.vue");
 /* harmony import */ var _components_auth_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/auth/LoginComponent.vue */ "./resources/js/components/auth/LoginComponent.vue");
 /* harmony import */ var _components_admin_AdminDashboard_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/admin/AdminDashboard.vue */ "./resources/js/components/admin/AdminDashboard.vue");
-/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+/* harmony import */ var _components_admin_UsersTableComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/admin/UsersTableComponent.vue */ "./resources/js/components/admin/UsersTableComponent.vue");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+
 
 
 
@@ -106547,7 +107343,18 @@ var routes = [{
   component: _components_admin_AdminDashboard_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'Admin',
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_5__["default"].state.userRole == 'Admin') {
+    if (_store_store__WEBPACK_IMPORTED_MODULE_6__["default"].state.userRole == 'Admin') {
+      next();
+    } else {
+      next('/');
+    }
+  }
+}, {
+  path: '/admin/users',
+  component: _components_admin_UsersTableComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+  name: 'UsersTable',
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store_store__WEBPACK_IMPORTED_MODULE_6__["default"].state.userRole == 'Admin') {
       next();
     } else {
       next('/');
@@ -106585,8 +107392,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     token: null,
     userName: null,
     userEmail: null,
-    userRole: null,
-    user: []
+    userRole: 'Guest'
   },
   mutations: {
     slug: function slug(state, payload) {
@@ -106623,8 +107429,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       state.token = null;
       state.userName = null;
       state.userEmail = null;
-      state.userRole = null;
-      state.user = null;
+      state.userRole = 'Guest';
     }
   },
   actions: {

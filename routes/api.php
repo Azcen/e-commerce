@@ -22,7 +22,7 @@ Route::apiResource('products', 'ProductController')->only([
     'index', 'show'
 ]);
 
-Route::get('user', 'UserController@index');
+Route::get('userstable', 'UserController@index');
   
 /*Route::group(['middleware' => 'auth.api'], function() {
     Route::get('logout', 'AuthController@logout');
@@ -38,11 +38,14 @@ Route::group([
 ], function () {
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
+    Route::post('register', 'AuthController@adminregis');
   
     Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
+        Route::patch ('update', 'AuthController@update');
+        Route::delete ('delete/{id}', 'AuthController@destroy');
     });
 });

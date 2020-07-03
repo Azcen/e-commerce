@@ -32,7 +32,37 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
         $user->save();
+        if($request->role){
+            $user->assignRole($request->role);
+        }else{
+            $user->assignRole('Customer');
+        }
+            
         return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
+    }
+    public function adminregis(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string'
+        ]);
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+        $user->save();
+        if($request->role){
+            $user->assignRole($request->role);
+        }else{
+            $user->assignRole('Customer');
+        }
+            
+        return response()->json([
+            'user' => $user,
             'message' => 'Successfully created user!'
         ], 201);
     }
@@ -111,5 +141,37 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    public function update(Request $request)
+    {
+        $user = User::find($request->id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        if($request->role == 'Admin'){
+            $user->removeRole('Customer');
+            $user->assignRole($request->role);
+        }else{
+            $user->removeRole('Admin');
+            $user->assignRole($request->role);
+        }
+        return response()->json([
+            'message' => 'Successfully updated user!'
+        ], 201);
+
+    }
+    public function destroy($id)
+    {
+        $user = User::find($id);
+
+        $user->delete();
+       
+        return response()->json([
+            'message' => 'Successfully deleted user!'
+        ], 201);
+
     }
 }

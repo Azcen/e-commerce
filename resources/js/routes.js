@@ -3,6 +3,7 @@ import Product from './components/ProductComponent.vue';
 import Checkout from './components/CheckoutComponent.vue';
 import Login from './components/auth/LoginComponent.vue';
 import Admin from './components/admin/AdminDashboard.vue';
+import UsersTable from './components/admin/UsersTableComponent.vue';
 import store from './store/store'
 
 export const routes = [
@@ -10,13 +11,23 @@ export const routes = [
     { path: '/login', component: Login, name: 'login' },
     { path: '/checkout', component: Checkout, name: 'Checkout' },
     { path: '/admin', component: Admin, name: 'Admin',
-    beforeEnter: (to, from, next) => {
-        if(store.state.userRole == 'Admin') {
-            next();
-        } else {
-            next('/');
-        }
-    } },
+        beforeEnter: (to, from, next) => {
+            if(store.state.userRole == 'Admin') {
+                next();
+            } else {
+                next('/');
+            }
+        } 
+    },
+    { path: '/admin/users', component: UsersTable, name: 'UsersTable',
+        beforeEnter: (to, from, next) => {
+            if(store.state.userRole == 'Admin') {
+                next();
+            } else {
+                next('/');
+            }
+        } 
+    },
     { path: '/:slug', component: Product, name: 'Product'},
     
 
