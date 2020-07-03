@@ -106585,7 +106585,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     token: null,
     userName: null,
     userEmail: null,
-    userRole: null
+    userRole: null,
+    user: []
   },
   mutations: {
     slug: function slug(state, payload) {
@@ -106613,19 +106614,24 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     auth: function auth(state, payload) {
       state.token = payload;
     },
+    userInfo: function userInfo(state, payload) {
+      state.userName = payload.name;
+      state.userEmail = payload.email;
+      state.userRole = payload.role;
+    },
     logout: function logout(state) {
       state.token = null;
       state.userName = null;
       state.userEmail = null;
       state.userRole = null;
-    },
-    userInfo: function userInfo(state, payload) {
-      state.userName = payload.name;
-      state.userEmail = payload.email;
-      state.userRole = payload.role;
+      state.user = null;
     }
   },
-  actions: {},
+  actions: {
+    logout: function logout(context) {
+      context.commit('logout');
+    }
+  },
   plugins: [new vuex_persist__WEBPACK_IMPORTED_MODULE_2__["default"]().plugin]
 }));
 

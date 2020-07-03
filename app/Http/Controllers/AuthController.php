@@ -70,7 +70,7 @@ class AuthController extends Controller
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->select('users.name','users.email', 'roles.name as role')
-            ->where('users.id', '=', 1)
+            ->where('users.id', '=', $userId)
             ->first();
             
            $userInfo = [

@@ -13,6 +13,7 @@ export default new Vuex.Store({
           userName: null,
           userEmail: null,
           userRole: null,
+          user:[]
         },
         mutations: {
           slug(state, payload) {
@@ -38,21 +39,27 @@ export default new Vuex.Store({
       
             state.token = payload;
           },
-          logout(state) {
-            state.token = null;
-            state.userName = null;
-            state.userEmail = null;
-            state.userRole = null;
-          },
           userInfo(state,payload){
             
             state.userName = payload.name;
             state.userEmail = payload.email;
             state.userRole = payload.role;
             
-          }
+          },
+          logout(state) {
+            state.token = null;
+            state.userName = null;
+            state.userEmail = null;
+            state.userRole = null;
+            state.user = null;
+          },
+          
         },
-        actions: {},
+        actions: {
+            logout (context) {
+                context.commit('logout')
+              }
+        },
         plugins: [new VuexPersistence().plugin]
       
 })
