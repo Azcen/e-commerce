@@ -9,15 +9,17 @@ require('./bootstrap');
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
-import Vuex from 'vuex';
-import VuexPersistence from 'vuex-persist'
+import store from './store/store'
+//import Vuex from 'vuex';
+//import VuexPersistence from 'vuex-persist'
+
 
 
 import { routes } from './routes';
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
-Vue.use(Vuex);
+//Vue.use(Vuex);
 
 
 const router = new VueRouter({
@@ -25,12 +27,19 @@ const router = new VueRouter({
   routes
 });
 
+
+
+
+/*
 const store = new Vuex.Store({
 
   state: {
     slug: null,
     cart: [],
     token: null,
+    userName: null,
+    userEmail: null,
+    userRole: null,
   },
   mutations: {
     slug(state, payload) {
@@ -58,12 +67,22 @@ const store = new Vuex.Store({
     },
     logout(state) {
       state.token = null;
+      state.userName = null;
+      state.userEmail = null;
+      state.userRole = null;
+    },
+    userInfo(state,payload){
+      
+      state.userName = payload.name;
+      state.userEmail = payload.email;
+      state.userRole = payload.role;
     }
   },
   actions: {},
   plugins: [new VuexPersistence().plugin]
 })
 
+*/
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -90,6 +109,7 @@ Vue.component('product-card', require('./components/ProductCardComponent.vue').d
 Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 Vue.component('checkout', require('./components/CheckoutComponent.vue').default);
 Vue.component('login', require('./components/auth/LoginComponent.vue').default);
+Vue.component('admin', require('./components/admin/AdminDashboard.vue').default);
 Vue.component(
   'passport-clients',
   require('./components/passport/Clients.vue').default

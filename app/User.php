@@ -38,14 +38,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getAllPermissionsAttribute() {
-        $permissions = [];
-          foreach (Permission::all() as $permission) {
-            if (Auth::user()->can($permission->name)) {
-              $permissions[] = $permission->name;
-            }
-          }
-          return $permissions;
-      }
 }

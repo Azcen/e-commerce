@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -64,12 +65,28 @@ class AuthController extends Controller
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+        $userId = Auth::id();
+        $query = DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->select('users.name','users.email', 'roles.name as role')
+            ->where('users.id', '=', 1)
+            ->first();
+            
+           $userInfo = [
+                
+                    'name'         => $query->name,
+                    'email'  => $query->email,
+                    'role'      => $query->role
+                
+            ];
         return response()->json([
             'token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toDateTimeString()
+            )->toDateTimeString(),
+            'info' => $userInfo
         ]);
     }
   
