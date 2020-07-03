@@ -64,7 +64,7 @@ export default {
       show: false,
       credentials: {
         email: null,
-        password: null
+        password: ''
       },
       rules: {
         required: value => !!value || "Required.",
@@ -80,7 +80,7 @@ export default {
 
   methods: {
     login(credentials) {
-      const urlProduct = "api/login";
+      const urlProduct = "api/auth/login";
       axios
         .post(urlProduct, credentials)
         .then(response => {

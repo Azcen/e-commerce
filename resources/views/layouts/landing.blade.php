@@ -23,5 +23,6 @@
             <base-app></base-app>
         </v-app>
     </div>
+    
 </body>
 </html>

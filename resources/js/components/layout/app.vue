@@ -20,13 +20,14 @@
             <v-list-item-title>Checkout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        
       </v-list>
       <template v-slot:append>
         <div class="pa-2" v-show="auth==false">
           <v-btn block @click="slug =$router.push('/login')">Login</v-btn>
         </div>
         <div class="pa-2" v-show="auth==true">
-          <v-btn block @click="slug =$router.push('/');logout();">Logout</v-btn>
+          <v-btn block @click="$router.push('/');logout();">Logout</v-btn>
         </div>
         <div class="pa-2">
           <v-btn block>Register</v-btn>
@@ -37,6 +38,7 @@
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>E-Commerce</v-toolbar-title>
+      
     </v-app-bar>
 
     <v-main>
@@ -44,6 +46,9 @@
         <v-row align="center" justify="center">
           <!-- there my components -->
           <router-view></router-view>
+          <!-- <passport-clients></passport-clients>
+          <passport-authorized-clients></passport-authorized-clients>
+          <passport-personal-access-tokens></passport-personal-access-tokens> -->
         </v-row>
       </v-container>
     </v-main>
@@ -82,9 +87,16 @@ export default {
   },
   methods: {
     logout() {
-      const urlLogout = "api/logout";
+      const urlLogout = "api/auth/logout";
+      const headers = {
+        Authorization: `Bearer ${this.$store.state.token}`, //the token is a variable which holds the token
+        Accept: 'application/json'
+
+      }
+      console.log(headers)
+
       axios
-        .get(urlLogout)
+        .get(urlLogout,headers)
         .then(response => {
           this.info = response.data;
           console.log(response.data);
@@ -93,6 +105,7 @@ export default {
         .catch(error => {
           console.log(error);
           this.err = true;
+          this.$store.commit("logout");
         })
         .finally(() => (this.loading = false));
     }

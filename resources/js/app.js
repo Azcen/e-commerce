@@ -12,11 +12,11 @@ import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist'
 
+
 import { routes } from './routes';
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
-Vue.use(Vuex);
 Vue.use(Vuex);
 
 
@@ -28,35 +28,35 @@ const router = new VueRouter({
 const store = new Vuex.Store({
 
   state: {
-      slug: null,
-      cart: [],
-      token: null,
+    slug: null,
+    cart: [],
+    token: null,
   },
   mutations: {
-    slug(state, payload){
-        state.slug = payload
+    slug(state, payload) {
+      state.slug = payload
     },
     addToCart(state, payload) {
       let found = state.cart.find(product => product.id == payload.id);
 
       if (found) {
-          found.quantity ++;
-          found.totalPrice = found.quantity * found.price;
+        found.quantity++;
+        found.totalPrice = found.quantity * found.price;
       } else {
-          state.cart.push(payload);
+        state.cart.push(payload);
 
-          Vue.set(payload, 'quantity', 1);
-          Vue.set(payload, 'totalPrice', payload.price);
+        Vue.set(payload, 'quantity', 1);
+        Vue.set(payload, 'totalPrice', payload.price);
       }
     },
-    removeFromCart(state,payload){
+    removeFromCart(state, payload) {
       state.cart = state.cart.filter(item => item.id !== payload);
     },
-    auth(state,payload){
-      
+    auth(state, payload) {
+
       state.token = payload;
     },
-    logout(state){
+    logout(state) {
       state.token = null;
     }
   },
@@ -90,6 +90,20 @@ Vue.component('product-card', require('./components/ProductCardComponent.vue').d
 Vue.component('side-bar', require('./components/SidebarComponent.vue').default);
 Vue.component('checkout', require('./components/CheckoutComponent.vue').default);
 Vue.component('login', require('./components/auth/LoginComponent.vue').default);
+Vue.component(
+  'passport-clients',
+  require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue').default
+);
 
 const app = new Vue({
   el: '#app',
