@@ -28,10 +28,6 @@ class CreateMediaTable extends Migration
             $table->nullableTimestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('media');

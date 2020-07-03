@@ -2825,15 +2825,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      img: null,
       msg: "",
       dialog: false,
       show: false,
@@ -2872,13 +2867,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: "",
         description: "",
         price: "",
-        status: ""
+        status: "",
+        img: null
       },
       defaultItem: {
         name: "",
-        email: "",
-        password: "",
-        role: ""
+        description: "",
+        price: "",
+        status: "",
+        img: null
       }
     };
   },
@@ -2995,7 +2992,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           price: this.editedItem.price,
           status: this.editedItem.status == 'Avaliable' ? 1 : 0
         };
-        console.log(this.editedItem.status);
         axios.post(urlCreate, data, {
           headers: headers
         }).then(function (response) {
@@ -3022,6 +3018,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
         this.close();
       }
+    },
+    upload: function upload(editedItem) {
+      var _this5 = this;
+
+      console.log(editedItem);
+      axios.post('/api/uploadimg', editedItem, {
+        headers: 'multipart/form-data'
+      }).then(function (response) {
+        console.log(response);
+        _this5.msg = response.data.message;
+      })["catch"](function (error) {
+        _this5.error = true;
+      })["finally"](function () {
+        return _this5.loading = false;
+      });
     }
   }
 });
@@ -44357,6 +44368,48 @@ var render = function() {
                                             })
                                           ],
                                           1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-col",
+                                          { attrs: { cols: "12" } },
+                                          [
+                                            [
+                                              _c("v-file-input", {
+                                                attrs: {
+                                                  label: "File input",
+                                                  filled: "",
+                                                  "prepend-icon": "mdi-camera"
+                                                },
+                                                model: {
+                                                  value: _vm.editedItem.img,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.editedItem,
+                                                      "img",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "editedItem.img"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.upload(
+                                                        _vm.editedItem
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v("upload img")]
+                                              )
+                                            ]
+                                          ],
+                                          2
                                         )
                                       ],
                                       1
@@ -45086,7 +45139,17 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-row",
-                    { attrs: { justify: "center" } },
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.auth == false,
+                          expression: "auth==false"
+                        }
+                      ],
+                      attrs: { justify: "center" }
+                    },
                     [
                       _c(
                         "v-dialog",
@@ -45384,7 +45447,7 @@ var render = function() {
                   attrs: { link: "" },
                   on: {
                     click: function($event) {
-                      return _vm.$router.push("/")
+                      return _vm.$router.push("/admin")
                     }
                   }
                 },

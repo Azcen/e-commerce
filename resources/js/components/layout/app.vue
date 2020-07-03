@@ -10,7 +10,7 @@
                     <v-list-item-title>Products</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="$router.push('/')" v-show="role=='Admin'">
+            <v-list-item link @click="$router.push('/admin')" v-show="role=='Admin'">
                 <v-list-item-action>
                     <v-icon>mdi-view-dashboard</v-icon>
                 </v-list-item-action>
@@ -54,7 +54,7 @@
                 <v-btn block @click="logout();">Logout</v-btn>
             </div>
 
-            <v-row justify="center">
+            <v-row v-show="auth==false" justify="center">
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template class="pa-3" v-slot:activator="{ on, attrs }">
 

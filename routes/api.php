@@ -23,6 +23,7 @@ Route::apiResource('products', 'ProductController')->only([
 ]);
 
 Route::get('userstable', 'UserController@index');
+Route::post('uploadimg', 'ImgProductController@store');
   
 /*Route::group(['middleware' => 'auth.api'], function() {
     Route::get('logout', 'AuthController@logout');
@@ -37,6 +38,8 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
     Route::post('register', 'AuthController@adminregis');
+    
+
     
   
     Route::group([
